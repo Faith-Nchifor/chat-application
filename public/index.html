@@ -62,6 +62,7 @@
 </head>
 
 <body onload="sayhi()">
+  <p > Online Users: <span id='onlineUsers'>0</span></p>
   <ul id="messages"></ul>
   <form id="form" action="">
     <input id="input" autocomplete="off" /><button>Send</button>
@@ -102,6 +103,12 @@
           sessionStorage.setItem('chat_key',id)
         }
       })
+      socket.on('updateOnlineUsers', function(onlineUsers){
+        console.log(onlineUsers);
+        console.log(document.getElementById('onlineUsers'));
+
+        document.getElementById('onlineUsers').innerHTML= onlineUsers;
+      });
   </script>
 </body>
 

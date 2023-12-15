@@ -12,6 +12,7 @@ const io = new Server(server);
 
 const port = process.env.port || 3000
 
+let onlineUsers = 0;
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/public/index.html');
 });
@@ -19,6 +20,9 @@ app.get('/', (req, res) => {
 io.on('connection', (socket) => {
     // console.log('a user connected');
     users= {}
+    onlineUsers++;
+
+  io.emit('updateOnlineUsers', onlineUsers);
     socket.on('chat message', (msg) => {
         console.log('message: ' + msg);
         console.log(socket.id);
@@ -38,6 +42,8 @@ io.on('connection', (socket) => {
     })
     socket.on('disconnect', () => {
         console.log('user disconnected');
+        onlineUsers--;
+    io.emit('updateOnlineUsers', onlineUsers-1);
     });
 });
 
